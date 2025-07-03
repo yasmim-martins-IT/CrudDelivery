@@ -1,6 +1,6 @@
-from fastapi import APIRouter
-from models import Usuario , db
-from sqlalchemy.orm import sessionmaker 
+from fastapi import APIRouter , Depends #depends cria as dependencias nas rotas
+from models import Usuario 
+from dependencies import criar_sessao
 
 auth_router = APIRouter(prefix= "/auth", tags=["auth"] ) #cria o roteador das rotas colocando o prefixo padrão para todas as rotas, tags é pra organizar na documentação com o nomezinho
 
@@ -9,11 +9,8 @@ async def autenticar() :
   return {"mensagem" : "rota padrão autentificar"}
 
 @auth_router.post("/criar_conta")
-async def criar_conta(email:str , senha : str, nome : str) :
+async def criar_conta(email:str , senha : str, nome : str , session =Depends(criar_sessao) ) :
   #cadastra os usuario
-  
-  Session = sessionmaker(bind=db) #cria uma sessão no banco de dados
-  session = Session()
   
   usuario = session.query(Usuario).filter(Usuario.email ==email).first() #procura todos os usuarios com o mesmo email que no parametro
 

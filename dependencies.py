@@ -3,8 +3,13 @@ from sqlalchemy.orm import sessionmaker
 from models import db
 
 def criar_sessao () :
-  #cria as sessões no banco de dados
-  Session = sessionmaker(bind=db)
-  session = Session() #cria uma INSTANCIA da classe sessão
+  try:
+    #cria as sessões no banco de dados
+    Session = sessionmaker(bind=db)
+    session = Session() #cria uma INSTANCIA da classe sessão
   
-  return session
+    yield session #ele não encerra a função porém ele retorna um valor para a função.
+  finally :
+    #o finally executa independente do que acontecer
+    
+    session.close() #fecha a sessão para o usuario

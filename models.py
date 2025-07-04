@@ -17,7 +17,7 @@ class Usuario(Base) :
   email = Column("email", String)
   senha = Column("senha" ,String )
   ativo = Column("ativo" , Boolean)
-  admin = Column("admin",Boolean, default= False) #dá para colocar um valor padrão do parametro
+  admin = Column("admin",Boolean, default=False) #dá para colocar um valor padrão do parametro
   
   def __init__(self, id , nome , email , senha, ativo = True , admin= False) :
     #cria o usuario no banco de dados
